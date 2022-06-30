@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+nx reset
+${CONTAINER_COMPOSE_CMD:-docker-compose} down -v

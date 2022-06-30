@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+PRJT_ROOT="$( cd "$(dirname "$0")" >/dev/null 2>&1 || exit 1 ; pwd -P | grep -o '^.*/' )"
+
+
+CONFIRM_WORD=$(shuf -n1 /usr/share/dict/words)
+read -r -p "[Clean] Any untrack progress will be lost ! Type [${CONFIRM_WORD}] to proceed : " UserConfirmation
+case $UserConfirmation in
+      $CONFIRM_WORD)
+            echo "Proceeding"
+            ;;
+      *)
+            echo "Aborting..."
+            exit 1
+            ;;
+esac
+
+nx run-many --target=clean --all --maxParallel
+git clean -fd
